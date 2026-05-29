@@ -1,0 +1,105 @@
+// src/services/api.js
+// All backend API calls. Change BASE_URL to your deployed backend.
+
+import axios from 'axios';
+
+const BASE_URL = process.env.REACT_APP_API_URL || '/api';
+
+const api = axios.create({ baseURL: BASE_URL });
+
+// Attach JWT on every request
+api.interceptors.request.use(cfg => {
+  const token = localStorage.getItem('token');
+  if (token) cfg.headers.Authorization = `Bearer ${token}`;
+  return cfg;
+});
+
+// // Auto-logout on 401
+// api.interceptors.response.use(
+//   r => r,
+//   err => {
+//     if (err.response?.status === 401) {
+//       localStorage.removeItem('token');
+//       localStorage.removeItem('admin');
+//       window.location.href = '/login';
+//     }
+//     return Promise.reject(err);
+//   }
+// );
+
+// Auto-logout on 401 (disabled for demo mode)
+api.interceptors.response.use(
+  r => r,
+  err => {
+    // ignore auth errors in demo mode
+    return Promise.reject(err);
+  }
+);
+
+// ── Auth ─────────────────────────────────────────────────────
+export const login = (email, password) =>
+  api.post('/auth/login', { email, password }).then(r => r.data);
+
+// ── Projects ─────────────────────────────────────────────────
+export const getProjects = () =>
+  api.get('/projects').then(r => r.data.projects);
+
+export const createProject = (data) =>
+  api.post('/projects', data).then(r => r.data.project);
+
+export const updateProject = (id, data) =>
+  api.patch(`/projects/${id}`, data).then(r => r.data.project);
+
+export const getTierRules = (projectId) =>
+  api.get(`/projects/${projectId}/tier-rules`).then(r => r.data.rules);
+
+export const updateTierRules = (projectId, data) =>
+  api.patch(`/projects/${projectId}/tier-rules`, data).then(r => r.data.rules);
+
+// ── Channel Partners ──────────────────────────────────────────
+export const getCPs = (projectId, params = {}) =>
+  api.get(`/projects/${projectId}/cps`, { params }).then(r => r.data);
+
+export const getCP = (projectId, cpId) =>
+  api.get(`/projects/${projectId}/cps/${cpId}`).then(r => r.data.cp);
+
+export const updateCPActivity = (projectId, cpId, data, period = 'monthly') =>
+  api.patch(`/projects/${projectId}/cps/${cpId}/activity`, data, { params: { period } }).then(r => r.data);
+
+// ── Messaging ─────────────────────────────────────────────────
+export const sendMessage = (projectId, cpId, payload) =>
+  api.post(`/projects/${projectId}/cps/${cpId}/message`, payload).then(r => r.data);
+
+export const sendBulkMessage = (projectId, payload) =>
+  api.post(`/projects/${projectId}/message-bulk`, payload).then(r => r.data);
+
+export const getMessages = (projectId, params = {}) =>
+  api.get(`/projects/${projectId}/messages`, { params }).then(r => r.data);
+
+// ── Meetings ──────────────────────────────────────────────────
+export const createMeeting = (projectId, cpId, data) =>
+  api.post(`/projects/${projectId}/cps/${cpId}/meetings`, data).then(r => r.data.meeting);
+
+export const updateMeeting = (meetingId, data) =>
+  api.patch(`/meetings/${meetingId}`, data).then(r => r.data.meeting);
+
+// ── Analytics ─────────────────────────────────────────────────
+export const getAnalytics = (projectId, period = 'monthly') =>
+  api.get(`/projects/${projectId}/analytics`, { params: { period } }).then(r => r.data);
+
+export const getSummaries = (projectId) =>
+  api.get(`/projects/${projectId}/summaries`).then(r => r.data.summaries);
+
+// ── Import ────────────────────────────────────────────────────
+export const importCSV = (projectId, file, periodType = 'monthly') => {
+  const form = new FormData();
+  form.append('file', file);
+  form.append('period_type', periodType);
+  return api.post(`/projects/${projectId}/import`, form, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }).then(r => r.data);
+};
+
+// ── Automation ────────────────────────────────────────────────
+export const runAutomation = (projectId) =>
+  api.post(`/projects/${projectId}/run-automation`).then(r => r.data);

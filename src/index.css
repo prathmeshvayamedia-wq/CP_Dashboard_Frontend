@@ -1,0 +1,157 @@
+/* ─────────────────────────────────────────────────────────────
+   PropEdge CP Manager — Country House Theme
+   Primary: Plum #7B3D6E | Active: Bottle Green #3D6B50
+   Dormant: Warm Amber #9C6820 | Inactive: Burnt Sienna #A8391A
+   BG: Parchment #FAF8F5 | Sidebar: White #FFFFFF
+───────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* ── Brand / Primary ── */
+  --brand:         #7B3D6E;
+  --brand-mid:     #9B5A8E;
+  --brand-light:   rgba(123,61,110,.10);
+  --brand-dark:    #5C2A52;
+  --brand-deeper:  #3D1A36;
+
+  /* ── Backgrounds ── */
+  --bg:            #FAF8F5;
+  --bg-sidebar:    #FFFFFF;
+  --bg-card:       #FFFFFF;
+  --bg-hover:      #F5F2EE;
+
+  /* ── Borders ── */
+  --border:        #EAE5DD;
+  --border-mid:    #D9CAAE;
+  --border-strong: #C8B898;
+
+  /* ── Text ── */
+  --text-1:        #1C1028;
+  --text-2:        #4A3D5C;
+  --text-3:        #7A6B8A;
+  --text-4:        #B0A494;
+  --text-5:        #C8BEAF;
+
+  /* ── Surfaces ── */
+  --surface:       #FFFFFF;
+  --surface-2:     #FAF8F5;
+  --surface-3:     #F3F0EC;
+
+  /* ── Active: Bottle Green ── */
+  --active:         #3D6B50;
+  --active-bg:      #E8F0EB;
+  --active-fg:      #24452E;
+  --active-border:  #BDD4C4;
+  --active-mid:     #5A8A6E;
+
+  /* ── Dormant: Warm Amber ── */
+  --dormant:        #9C6820;
+  --dormant-bg:     #F8F0E4;
+  --dormant-fg:     #6B4412;
+  --dormant-border: #D9C09A;
+  --dormant-mid:    #BA8A40;
+
+  /* ── Inactive: Burnt Sienna ── */
+  --inactive:        #A8391A;
+  --inactive-bg:     #FBECE6;
+  --inactive-fg:     #7A2412;
+  --inactive-border: #D9B4A0;
+  --inactive-mid:    #C4694A;
+
+  /* ── Muted ── */
+  --muted:   #9486A8;
+  --muted-2: #B0A494;
+  --muted-3: #C8BEAF;
+
+  /* ── Ink (ui/index.js compat) ── */
+  --ink:   #1C1028;
+  --ink-2: #2E2040;
+  --ink-3: #3D3050;
+  --ink-4: #4D4060;
+
+  /* ── Radii ── */
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-xl:  20px;
+
+  /* ── Shadows ── */
+  --shadow-sm:    0 1px 4px rgba(28,16,40,.05);
+  --shadow-md:    0 4px 14px rgba(28,16,40,.09);
+  --shadow-lg:    0 8px 32px rgba(28,16,40,.12);
+  --shadow-brand: 0 4px 18px rgba(123,61,110,.28);
+}
+
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: 'Plus Jakarta Sans', 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: inherit; }
+input, select, textarea { font-family: inherit; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(123,61,110,.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(123,61,110,.28); }
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
+@keyframes shimmer {
+  from { background-position: -600px 0; }
+  to   { background-position:  600px 0; }
+}
+
+.pu { animation: fadeUp .38s ease both; }
+
+.stagger > *:nth-child(1) { animation-delay: .04s; }
+.stagger > *:nth-child(2) { animation-delay: .08s; }
+.stagger > *:nth-child(3) { animation-delay: .12s; }
+.stagger > *:nth-child(4) { animation-delay: .16s; }
+.stagger > *:nth-child(5) { animation-delay: .20s; }
+.stagger > *:nth-child(6) { animation-delay: .24s; }
+
+/* ── Skeleton ── */
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-3) 25%, var(--border) 50%, var(--surface-3) 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.6s infinite;
+  border-radius: var(--radius-md);
+}
+
+/* ── Tier badges ── */
+.tier-active   { background:var(--active-bg);   color:var(--active-fg);   border:1px solid var(--active-border); }
+.tier-dormant  { background:var(--dormant-bg);  color:var(--dormant-fg);  border:1px solid var(--dormant-border); }
+.tier-inactive { background:var(--inactive-bg); color:var(--inactive-fg); border:1px solid var(--inactive-border); }
+
+/* ── Utility ── */
+.sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
+
+/* ── Selection ── */
+::selection { background: rgba(123,61,110,.18); color: var(--text-1); }
+
+/* ── Inputs ── */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { opacity:.4; }
+input[type=datetime-local]::-webkit-calendar-picker-indicator { filter:invert(.3) sepia(.3); }
