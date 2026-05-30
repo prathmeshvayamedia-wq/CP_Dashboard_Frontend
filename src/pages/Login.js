@@ -64,6 +64,7 @@ export default function Login() {
             Welcome back,<br />Admin
           </h1>
           <p style={{ fontSize:13, color:'#9486A8', lineHeight:1.6 }}>Sign in to manage your channel partners and projects.</p>
+          <p style={{ fontSize:13, color:'#9486A8', lineHeight:1.6 }}>EMAIL : Admin@vayamedia.studio |  PASSWORD : Admin@123</p>
         </div>
 
         <form onSubmit={handleSubmit}>
